@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, ODS-*]
   release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -26,10 +27,13 @@ jobs:
         uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96
         with:
           images: edfialliance/ods-api-db-sandbox
+          labels: |
+            org.opencontainers.image.title=ods-api-db-sandbox
+            org.opencontainers.image.description=Docker Image for the EdFi_Ods_Sandbox_* databases running under PostgreSQL
           flavor: |
             latest=false
           tags: |
             type=semver,pattern={{raw}},event=tag
             type=semver,pattern=v{{major}}.{{minor}},event=tag
             type=semver,pattern=v{{major}},event=tag
-            type=raw,value=pre,branch=$repo.default_branch
+            type=raw,value=pre,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
