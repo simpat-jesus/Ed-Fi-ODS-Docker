@@ -26,8 +26,10 @@ jobs:
         uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96
         with:
           images: edfialliance/ods-api-db-sandbox
+          flavor: |
+            latest=false
           tags: |
-            type=semver,pattern={{version}},event=tag
-            type=semver,pattern={{major}}.{{minor}},event=tag
-            type=semver,pattern={{major}},event=tag
+            type=semver,pattern={{raw}},event=tag
+            type=semver,pattern=v{{major}}.{{minor}},event=tag
+            type=semver,pattern=v{{major}},event=tag
             type=raw,value=pre,branch=$repo.default_branch
