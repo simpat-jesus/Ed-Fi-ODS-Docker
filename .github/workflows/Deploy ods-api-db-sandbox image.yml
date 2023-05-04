@@ -2,7 +2,7 @@ name: Deploy ods-api-db-sandbox image
 
 on:
   push:
-    branches: [main, ODS-*]
+    branches: [main]
   release:
     types: [published]
   workflow_dispatch:
@@ -36,4 +36,4 @@ jobs:
             type=semver,pattern={{raw}},event=tag
             type=semver,pattern=v{{major}}.{{minor}},event=tag
             type=semver,pattern=v{{major}},event=tag
-            type=raw,value=pre,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
+            type=raw,value=pre,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
