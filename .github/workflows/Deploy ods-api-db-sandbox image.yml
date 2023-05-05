@@ -29,7 +29,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@507c2f2dc502c992ad446e3d7a5dfbe311567a96
         with:
-          images: edfialliance/ods-api-db-sandbox
+          images: jesusfl/testrepo
           labels: |
             org.opencontainers.image.title=ods-api-db-sandbox
             org.opencontainers.image.description=Docker Image for the EdFi_Ods_Sandbox_* databases running under PostgreSQL
@@ -41,8 +41,10 @@ jobs:
             type=semver,pattern=v{{major}},event=tag
             type=raw,value=pre,enable=${{ env.ENABLE_PRE_IMAGE }}
 
-      - name: Echo Tags to be used to push
-        run:  echo "${{ steps.meta.outputs.tags }}"
-
-      - name: Echo Labels to be used to push
-        run:  echo "${{ steps.meta.outputs.labels }}"
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: DB-Sandbox/Alpine/pgsql
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
